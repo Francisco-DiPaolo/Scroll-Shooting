@@ -1,2 +1,2 @@
-# Scroll Shooting
+# Scrolling Shooter
  
