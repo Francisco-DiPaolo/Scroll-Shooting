@@ -4,26 +4,38 @@ using UnityEngine;
 
 public abstract class PowerUp : MonoBehaviour
 {
-    [SerializeField] protected float duration;
     protected PlayerController player;
+    private Rigidbody rb;
+    public float speed;
+
+    protected virtual void Start()
+    {
+        player = FindObjectOfType<PlayerController>();
+        rb = GetComponent<Rigidbody>();
+    }
+    private void Update()
+    {
+        Movement();
+    }
 
     public virtual void effect()
     {
-        player = FindObjectOfType<PlayerController>();
+
     }
 
-    public virtual IEnumerator PowerUpDuration(float time)
+    protected void OnTriggerEnter(Collider other)
     {
-        yield return new WaitForSeconds(time);
-    }
-
-    protected void OnTriggerEnter2D(Collider2D collision)
-    {
-        if (collision.CompareTag("Player"))
+        if (other.gameObject.CompareTag("Player"))
         {
             effect();
-            gameObject.GetComponent<Collider2D>().enabled = false;
-            gameObject.GetComponent<SpriteRenderer>().enabled = false;
+            gameObject.GetComponent<Collider>().enabled = false;
+            gameObject.GetComponent<MeshRenderer>().enabled = false;
+
         }
+    }
+
+    protected void Movement()
+    {
+        rb.AddRelativeForce(Vector2.down * speed * Time.deltaTime, ForceMode.Force);
     }
 }

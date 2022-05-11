@@ -4,36 +4,52 @@ using UnityEngine;
 
 public abstract class Enemies : MonoBehaviour
 {
-    [SerializeField] protected float speed;
-    //[SerializeField] protected float shotPrefab;
-    //[SerializeField] protected float shotSpawn;
     [SerializeField] protected float vida;
+    protected GameController gameController;
+    protected PlayerController playerController;
 
-    public virtual void Movement()
+    protected virtual void Start()
+    {
+        gameController = FindObjectOfType<GameController>();
+        playerController = FindObjectOfType<PlayerController>();
+    }
+    protected virtual void Movement()
     {
 
     }
-    
-    public virtual void Destruir()
-    {
 
+    protected virtual void Update()
+    {
+        Destruir();
+
+        if (transform.position.y <= -5.5f)
+        {
+            Destroy(gameObject);
+            playerController.vida--;
+        }
     }
 
-    public virtual void Disparar()
+    protected virtual void Destruir()
     {
-
+        if (vida <= 0)
+        {
+            Destroy(gameObject);
+            gameController.EnemyDie();
+        }
     }
 
-    public virtual void RecibirDaño()
+    protected virtual void RecibirDaño()
     {
         vida -= 100;
     }
 
-    protected void OnTriggerEnter2D(Collider2D collision)
+    protected virtual void OnTriggerEnter(Collider other)
     {
-        if (collision.CompareTag("Bullet"))
+
+        if (other.gameObject.CompareTag("Bullet"))
         {
             RecibirDaño();
+            Destroy(other.gameObject);
         }
     }
 }

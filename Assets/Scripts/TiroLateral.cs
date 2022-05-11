@@ -2,17 +2,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class TiroLateral : MonoBehaviour
+public class TiroLateral : PowerUp
 {
-    // Start is called before the first frame update
-    void Start()
+    public override void effect()
     {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
+        base.effect();
+        player.tipoPowerUp = "tiroLateral";
     }
 }
