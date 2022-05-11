@@ -14,6 +14,7 @@ public class GameController : MonoBehaviour
     public float waveWait;
 
     public Text textContador;
+    public Text textLife;
     public int spawnScore;
     private bool bossFight;
     private Asteroide asteroide;
@@ -44,6 +45,8 @@ public class GameController : MonoBehaviour
             bossFight = true;
             Instantiate(boss, spawnerPosition.transform.position, Quaternion.identity);
         }
+
+        SetTextLife();
     }
 
     IEnumerator SpawnWaves()
@@ -83,6 +86,11 @@ public class GameController : MonoBehaviour
     {
         score++;
         textContador.text = score.ToString() + "/" + spawnScore;
+    }
+
+    public void SetTextLife()
+    {
+        textLife.text = "Vida: " + player.vida.ToString();
     }
 
     public void Win()
